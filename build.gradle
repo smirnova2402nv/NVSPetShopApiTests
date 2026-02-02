@@ -6,6 +6,31 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    junitVersion = "5.11.4"
+    assertJVersion= "3.26.3"
+    restAssuredVersion = "5.5.0"
+    jacksonCoreVersion = "2.16.1"
+    lombokVersion = "1.18.26"
+}
+// подключение зависимостей
 dependencies {
-
+    // тест движок junit
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
+// rest-assured - для тестирования api
+    testImplementation "io.r  est-assured:rest-assured:${restAssuredVersion}"
+// jackson - библиотека для взаимодействия с джэйсон файлами, внутри рест ажурда есть функции для работы с джэйсонами, которых не достаточно-джэксон исправляет это
+    testImplementation "com.fasterxml.jackson.core:jackson-core:${jacksonCoreVersion}"
+    testImplementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonCoreVersion}"
+    testImplementation "com.fasterxml.jackson.core:jackson-databind:${jacksonCoreVersion}"
+// lombok
+    testImplementation "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testImplementation "org.assertj:assertj-core:${assertJVersion}"
+}
+//тестовый движок JUnitPlatform -подключение
+test {
+    useJUnitPlatform()
 }
