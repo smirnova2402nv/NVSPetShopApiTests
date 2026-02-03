@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 
-@
 public class TestPet {
     private static final String BASE_URL = "http://5.181.109.28:9090/api/v3";
 
