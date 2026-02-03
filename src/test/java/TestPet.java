@@ -19,7 +19,7 @@ public class TestPet {
     @Severity(SeverityLevel.CRITICAL)
     @Owner("Nadejda Smirnova")
     public void testDeletedNonexistentPet() {
-        Response response = step("Проверка что текст ответа 'Pet deleted'", () ->
+        Response response = step("Отправка DELETE запроса на удаление несуществующего Pet", () ->
                 given()
                         .contentType(ContentType.JSON)
                         .header("Accept", "application/json")
