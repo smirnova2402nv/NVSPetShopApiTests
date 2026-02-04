@@ -1,7 +1,7 @@
 pipeline {
 
     agent any
- stages {
+stages {
         stage('Check Java Version') {
             steps {
                 script {
@@ -11,7 +11,6 @@ pipeline {
                 }
             }
         }
-    stages {
 
         stage('Checkout') {
             steps {
