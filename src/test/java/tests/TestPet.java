@@ -76,7 +76,7 @@ public class TestPet {
         );
     }
 
-    @ParameterizedTest(name = "Добавление питомца со статусом: {2}")
+    @ParameterizedTest(name = "со статусом: {2}")
     @CsvSource({
             "200, Li-li, available",
             "201, Buddy, pending",
