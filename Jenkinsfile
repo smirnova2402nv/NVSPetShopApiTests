@@ -1,8 +1,16 @@
 pipeline {
 
     agent any
-
-    stages {
+stages {
+        stage('Check Java Version') {
+            steps {
+                script {
+                    sh 'java -version'
+                    sh 'javac -version'
+                    sh 'echo $JAVA_HOME'
+                }
+            }
+        }
 
         stage('Checkout') {
             steps {
