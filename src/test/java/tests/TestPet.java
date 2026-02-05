@@ -9,6 +9,8 @@ import io.restassured.response.Response;
 import models.Pet;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
@@ -22,7 +24,7 @@ public class TestPet {
     @Feature("Pet")
     @Severity(SeverityLevel.CRITICAL)
     @Owner("Nadejda Smirnova")
-    @DisplayName("Удаление несуществующего Pet")
+    @DisplayName("Удаление несуществующего питомца")
     public void testDeletedNonexistentPet() {
         Response response = step("Отправка DELETE запроса на удаление несуществующего питомца", () ->
                 given()
@@ -71,6 +73,45 @@ public class TestPet {
         step("Проверка что текст ответа 'Pet not found'", () ->
                 assertEquals("Pet not found", responseBody,
                         "Текст ошибки не совпал с ожидаемым. Получен: " + responseBody)
+        );
+    }
+
+    @ParameterizedTest(name = "Добавлеие питомца со статусом: {2}")
+    @CsvSource({
+            "200, Li-li, available",
+            "201, Buddy, pending",
+            "202, Molly, sold"
+    })
+    @Feature("Pet")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("Nadejda Smirnova")
+    @DisplayName("Добавление питомца")
+    public void testAddNewPet(int id, String name, String status) {
+        Pet pet = new Pet();
+        pet.setId(id);
+        pet.setName(name);
+        pet.setStatus(status);
+        Response response = step("Отправка PUT запроса на добавление питомца", () ->
+                given()
+                        .contentType(ContentType.JSON)
+                        .header("Accept", "application/json")
+                        .body(pet)
+                        .when()
+                        .post(BASE_URL + "/pet"));
+
+        String responseBody = response.getBody().asString();
+
+        step("Проверка что статус-код ответа = 404", () ->
+                assertEquals(200, response.getStatusCode(),
+                        "Код ответа не совпал с ожидаемым. Ответ: " + responseBody)
+        );
+
+        step("Проверка параметров созданного питомца", () -> {
+                    Pet createdPet = response.as(Pet.class);
+                    assertEquals(pet.getId(), createdPet.getId(), "id питомца не совпадает с ожидаемым");
+                    assertEquals(pet.getName(), createdPet.getName(), "name питомца не совпадает с ожидаемым");
+                    assertEquals(pet.getStatus(), createdPet.getStatus(), "status питомца не совпадает с ожидаемым");
+                }
         );
     }
 }
