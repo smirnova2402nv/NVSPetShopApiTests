@@ -101,7 +101,7 @@ public class TestPet {
 
         String responseBody = response.getBody().asString();
 
-        step("Проверка что статус-код ответа = 404", () ->
+        step("Проверка что статус-код ответа = 200", () ->
                 assertEquals(200, response.getStatusCode(),
                         "Код ответа не совпал с ожидаемым. Ответ: " + responseBody)
         );
